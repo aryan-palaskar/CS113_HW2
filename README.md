@@ -21,27 +21,3 @@ The menu will allow the user to modify, clear, build, and add polynomials repeat
 
 **Provide full UML class relationship diagram for the project above as well as a UML sequence diagram for your driver**. Save both as images and place inside the `doc` package of the repository, then edit this markdown file to add the images in the placeholders below:
 
-
-----------
-
-
-Polynomial Program – UML Class Relationship Diagram
-
-[ PLACE IMAGE HERE ]
-
-Polynomial Program – UML Driver Sequence Diagram
-
-[ PLACE IMAGE HERE ]
-
-
-----------
-
-
-### Make sure to commit + push *before* the deadline to have your code be considered for grading.
-
->Pro-Tips:
->- Do the UML class/sequence diagrams first; it’ll help you see if you fully understand the project and its requirements.  ***Failure to plan is planning to fail!***
->- For the ADT implementations (basically all classes but the driver, for this program) make sure to create all the required methods: setters, getters, toString, equals, constructors, etc.
->- Also, make sure to look at the JUnit tests as a guide of what to implement, in case you're not sure.  Your code must pass all tests, but you can comment out tests as you build so you can build one method/part at a time! ***Build incrementally, writing a lot of code without knowing it works is not good strategy!***
->- Checkout the [Mastering Markdown guide](https://guides.github.com/features/mastering-markdown/) for help on how to insert images.  This markdown file, `README.md`, in the repository is the one you want to edit, and you can edit it in IntelliJ (it's just a text file)!
->- Think of your user! What is a simple, straightforward, easy way for them to input the polynomials into the program? What methods may help clean up your code and provide flexibility to your classes?  What data and in what format do you show to your user in the console output so that it is clear what is going on?
