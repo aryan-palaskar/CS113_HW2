@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 import org.testng.annotations.Test;
-//import static org.junit.Assert.*;
+
 
 public class PolynomialTest {
 
@@ -111,21 +111,21 @@ public class PolynomialTest {
     @Test
     public void testUniqueAddTermTypeBySizeOfList1() {
         Polynomial test = new Polynomial();
-        assertEquals( 0, test.getNumTerms(),"List NOT created as empty list");
+        assertEquals( 0, test.getTotalTerms(),"List NOT created as empty list");
 
         for(int i = 0; i < UNIQUE_TERMS1.length; i++) {
             test.addTerm(UNIQUE_TERMS1[i]);
-            assertEquals(i+1, test.getNumTerms(),"Term was NOT added to list of terms");
+            assertEquals(i+1, test.getTotalTerms(),"Term was NOT added to list of terms");
         }
     }
     @Test
     public void testUniqueAddTermTypeBySizeOfList2() {
         Polynomial test = new Polynomial();
-        assertEquals( 0, test.getNumTerms(),"List NOT created as empty list");
+        assertEquals( 0, test.getTotalTerms(),"List NOT created as empty list");
 
         for(int i = 0; i < UNIQUE_TERMS2.length; i++) {
             test.addTerm(UNIQUE_TERMS2[i]);
-            assertEquals( i+1, test.getNumTerms(),"Term was NOT added to list of terms");
+            assertEquals( i+1, test.getTotalTerms(),"Term was NOT added to list of terms");
         }
     }
 
@@ -208,18 +208,18 @@ public class PolynomialTest {
     public void testDuplicateAddTermTypeBySizeOfList() {
         int finalSize = DUPLICATE_TERMS.length - DUPLICATE_NUM;
         Polynomial test = new Polynomial();
-        assertEquals( 0, test.getNumTerms(),"List NOT created as empty list");
+        assertEquals( 0, test.getTotalTerms(),"List NOT created as empty list");
 
         //add unique terms first and test size of list grows
         for(int i = 0; i < finalSize; i++) {
             test.addTerm(DUPLICATE_TERMS[i]);
-            assertEquals( i+1, test.getNumTerms(),"Term was NOT added to list of terms");
+            assertEquals( i+1, test.getTotalTerms(),"Term was NOT added to list of terms");
         }
 
         //add duplicate terms and test size does not grow
         for(int i = finalSize; i < DUPLICATE_TERMS.length; i++) {
             test.addTerm(DUPLICATE_TERMS[i]);
-            assertEquals(finalSize, test.getNumTerms(),"Term was added but DIDN'T combine like terms (matching exponents");
+            assertEquals(finalSize, test.getTotalTerms(),"Term was added but DIDN'T combine like terms (matching exponents");
         }
     }
 
@@ -248,11 +248,11 @@ public class PolynomialTest {
         for(Term t : UNIQUE_TERMS1) {
             test.addTerm(t);
         }
-        assertEquals( UNIQUE_TERMS1.length, test.getNumTerms(),"Size of built polynomial does NOT match expected");
+        assertEquals( UNIQUE_TERMS1.length, test.getTotalTerms(),"Size of built polynomial does NOT match expected");
 
         test.clear();
 
-        assertEquals( 0, test.getNumTerms(),"Size of built polynomial > 0 (should be empty list!)");
+        assertEquals( 0, test.getTotalTerms(),"Size of built polynomial > 0 (should be empty list!)");
     }
 
     @Test
@@ -269,7 +269,7 @@ public class PolynomialTest {
 
         test1.add(test2);
 
-        for(int i = 0; i < test1.getNumTerms(); i++) {
+        for(int i = 0; i < test1.getTotalTerms(); i++) {
             actualTerm = test1.getTerm(i);
             expectedTerm = UNIQUE_ADD_ORDER[i];
 
@@ -290,7 +290,7 @@ public class PolynomialTest {
 
         assertTrue( original != copy, "Shallow copy of Polynomial object");
 
-        for(int i = 0; i < original.getNumTerms(); i++) {
+        for(int i = 0; i < original.getTotalTerms(); i++) {
             originalTerm = original.getTerm(i);
             copyTerm = copy.getTerm(i);
 

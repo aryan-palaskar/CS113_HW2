@@ -4,44 +4,36 @@ public class Polynomial
 {
     private LinkedList<Term> termList;
 
+    //default constructor
     public Polynomial()
     {
         this.termList = new LinkedList();
     }
 
-
+    //full constructor
     public Polynomial(Polynomial polynomial)
     {
         this.termList = new LinkedList();
 
         if (polynomial != null)
         {
-            for (int i = 0; i < polynomial.getNumTerms(); i++)
+            for (int i = 0; i < polynomial.getTotalTerms(); i++)
             {
                 termList.add(new Term(polynomial.getTerm(i)));
             }
         }
     }
 
-    public void createPoly(String polynomial) {
-        this.termList = new LinkedList();
-        String[] terms = null;
-        if(polynomial != null) {
-            terms = polynomial.split("//+");
-        }
-        for(int i = 0; i < terms.length; i++) {
-            termList.add(new Term(terms[i]));
-        }
-    }
+    //add method that adds two polynomials with the help of the addTerm method
     public void add(Polynomial polynomial)
     {
-        for (int i = 0; i < polynomial.getNumTerms(); i++)
+        for (int i = 0; i < polynomial.getTotalTerms(); i++)
         {
             this.addTerm(polynomial.getTerm(i));
         }
     }
 
-
+    //method that adds two terms
     public void addTerm(Term termToAdd)
     {
         Term initialTerm, termCurrent, termNext, sum;
@@ -78,12 +70,11 @@ public class Polynomial
         }
         else
         {
-            for (int i = 0; i < this.getNumTerms() - 1; i++)
+            for (int i = 0; i < this.getTotalTerms() - 1; i++)
             {
                 termCurrent = this.getTerm(i);
                 termNext = this.getTerm(i + 1);
 
-                // if term to add exponent bigger then current term's exponent
                 if (termToAdd.compareTo(termCurrent) == 1)
                 {
                     termList.add(i, termToAdd);
@@ -114,7 +105,7 @@ public class Polynomial
                 }
             }
 
-            lastIndex = this.getNumTerms() - 1;
+            lastIndex = this.getTotalTerms() - 1;
             initialTerm = this.getTerm(lastIndex);
 
             if (termToAdd.compareTo(initialTerm) == 0)
@@ -136,9 +127,10 @@ public class Polynomial
         }
     }
 
+    //method that removes a term at a specific index
     public Term remove(int index)
     {
-        if (index < 0 || index > this.getNumTerms() - 1)
+        if (index < 0 || index > this.getTotalTerms() - 1)
         {
             return null;
         }
@@ -150,21 +142,19 @@ public class Polynomial
         }
     }
 
+    //getters and setters
     public Term getTerm(int index)
     {
         return new Term(this.termList.get(index));
     }
 
-    public void clear()
-    {
-        this.termList.clear();
-    }
-
-    public int getNumTerms()
+    //method to that returns the total number of terms in a polynomial
+    public int getTotalTerms()
     {
         return this.termList.size();
     }
 
+    //equals method to check if two polynomials are equal to each other
     @Override
     public boolean equals(Object other)
     {
@@ -175,13 +165,13 @@ public class Polynomial
         else
         {
             Polynomial otherPolynomial = (Polynomial) other;
-            if (this.getNumTerms() != ((Polynomial) other).getNumTerms())
+            if (this.getTotalTerms() != ((Polynomial) other).getTotalTerms())
             {
                 return false;
             }
             else
             {
-                for (int i = 0; i < this.getNumTerms(); i++)
+                for (int i = 0; i < this.getTotalTerms(); i++)
                 {
                     if (this.getTerm(i).getCoefficient() != otherPolynomial.getTerm(i).getCoefficient()
                             || this.getTerm(i).getExponent() != otherPolynomial.getTerm(i).getExponent())
@@ -194,30 +184,38 @@ public class Polynomial
         }
     }
 
+    //toString method to display the polynomial to the user
     @Override
     public String toString()
     {
-        String temp;
+        String polyTerm;
 
         if (this.termList == null || this.termList.size() == 0)
         {
-            temp = "0";
+            polyTerm = "0";
         }
         else
         {
-            temp = "";
+            polyTerm = "";
 
-            for (Term term : termList)
+            for(int i = 0; i < termList.size(); i++)
             {
-                temp += term.toString();
+                Term term = termList.get(i);
+                polyTerm += term.toString();
             }
 
-            if (temp.charAt(0) == '+')
+            if (polyTerm.charAt(0) == '+')
             {
-                temp = temp.substring(1);
+                polyTerm = polyTerm.substring(1);
             }
         }
 
-        return temp;
+        return polyTerm;
+    }
+
+    //method that clears the polynomial
+    public void clear()
+    {
+        this.termList.clear();
     }
 }

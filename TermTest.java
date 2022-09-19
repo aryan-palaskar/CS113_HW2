@@ -18,11 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-//import static org.junit.Assert.assertTrue;
-//import static org.junit.Assert.*;
-
-
-
 
 public class TermTest {
 
@@ -186,7 +181,7 @@ public class TermTest {
 
 
     @Test
-    public void testClone()  {
+    public void testClone() throws CloneNotSupportedException {
         Term original = new Term(10, -5);
         Term copy = (Term)original.clone();
 

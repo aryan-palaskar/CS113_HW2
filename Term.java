@@ -6,44 +6,52 @@ public class Term implements Cloneable, Comparable
     private int coefficient;
     private int exponent;
 
+    //default constructor
     public Term()
     {
         this.setAll(1, 1);
     }
 
+    //full constructor
     public Term(int coefficient, int exponent)
     {
         this.setAll(coefficient, exponent);
     }
 
+    //instantiate a new term with a given term as the parameter
     public Term(Term other)
     {
-        if (other == null)
-        {
-            throw new NullPointerException();
-        }
-        else
-        {
-            this.setAll(other.getCoefficient(), other.getExponent());
-        }
+        this.setAll(other.getCoefficient(), other.getExponent());
     }
 
+    //String constructor that passes string as a parameter
     public Term(String term)
     {
         int coefficient, exponent;
 
-        if (!term.isEmpty())
+        if (term != null)
         {
 
             if (term.contains(Character.toString('x')))
             {
                 String[] splitTerm = term.split(Character.toString('x'));
 
-                coefficient = parseCoefficientString(splitTerm[0]);
+                if (splitTerm[0].length() == 1 && splitTerm[0].charAt(0) == '-')
+                {
+                    coefficient = -1;
+                }
+                else if (splitTerm[0].length() == 1 && splitTerm[0].charAt(0) == '+')
+                {
+                    coefficient = 1;
+                }
+                else
+                {
+                    coefficient = Integer.parseInt(splitTerm[0]);
+                }
 
                 if (splitTerm.length == 2)
                 {
-                    exponent = parseExponentString(splitTerm[1]);
+                    exponent = Integer.parseInt(splitTerm[1].substring(1));
                 }
                 else
                 {
@@ -52,7 +60,18 @@ public class Term implements Cloneable, Comparable
             }
             else
             {
-                coefficient = parseCoefficientString(term);
+                if (term.length() == 1 && term.charAt(0) == '-')
+                {
+                    coefficient = -1;
+                }
+                else if (term.length() == 1 && term.charAt(0) == '+')
+                {
+                    coefficient = 1;
+                }
+                else
+                {
+                    coefficient = Integer.parseInt(term);
+                }
                 exponent = 0;
             }
         }
@@ -64,27 +83,7 @@ public class Term implements Cloneable, Comparable
         this.setAll(coefficient, exponent);
     }
 
-    private int parseCoefficientString(String str)
-    {
-        if (str.length() == 1 && str.charAt(0) == '-')
-        {
-            return -1;
-        }
-        else if (str.length() == 1 && str.charAt(0) == '+')
-        {
-            return 1;
-        }
-        else
-        {
-            return Integer.parseInt(str);
-        }
-    }
-
-    private int parseExponentString(String str)
-    {
-        return Integer.parseInt(str.substring(1));
-    }
-
+    //getters and setters for the variables
     public void setCoefficient(int value)
     {
         this.coefficient = value;
@@ -111,31 +110,20 @@ public class Term implements Cloneable, Comparable
         return this.exponent;
     }
 
-    public Object clone() {
-        Term t1 = new Term();
-        t1.setAll(this.getCoefficient(), this.getExponent());
-        Object other = (Object) t1;
-        return other;
+    //clone method to clone a term
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
-
+    //compare method to check if a Term is greater, less or same
     public int compareTo(Object o)
     {
         Term other = (Term) o;
-        if (this.exponent > other.getExponent())
-        {
-            return 1;
-        }
-        else if (this.exponent < other.getExponent())
-        {
-            return -1;
-        }
-        else
-        {
-            return 0;
-        }
+        return Integer.compare(this.exponent, other.getExponent());
     }
 
+    //equals method to check if two terms are equal
     public boolean equals(Object other)
     {
         if (other == null || other.getClass() != this.getClass())
@@ -150,60 +138,61 @@ public class Term implements Cloneable, Comparable
         }
     }
 
+    //toString method for displaying the term with appropriate signs
     public String toString()
     {
-        String temp = "";
+        String termString = "";
 
         if (this.coefficient != 0)
         {
-
-
             if (coefficient > 0)
             {
-                temp += '+';
+                termString += '+';
                 if (coefficient > 1)
                 {
-                    temp += this.coefficient;
+                    termString += this.coefficient;
                 }
             }
             else
             {
                 if (coefficient == -1)
                 {
-                    temp += '-';
+                    termString += '-';
                 }
                 else
                 {
-                    temp += this.coefficient;
+                    termString += this.coefficient;
                 }
             }
 
             if (this.exponent != 0)
             {
-                temp += 'x';
+                termString += 'x';
 
                 if (this.exponent > 1 || this.exponent < -1)
                 {
-                    temp += '^' + "" + this.exponent;
+                    termString += '^' + "" + this.exponent;
                 }
             }
         }
-        return temp;
+        return termString;
     }
 
+    //method to perform addition of two term using the sum method
     public Term addition(Term other)
     {
         return sum(this, other);
     }
 
-    public static Term sum(Term termA, Term termB)
+    //method to calculate the sum of two terms
+    public static Term sum(Term term1, Term term2)
     {
         Term other = null;
         int coefficientSum;
 
-        if (termA.exponent == termB.exponent)
+        if (term1.exponent == term2.exponent)
         {
-            coefficientSum = termA.coefficient + termB.coefficient;
+            coefficientSum = term1.coefficient + term2.coefficient;
 
             if (coefficientSum == 0)
             {
@@ -211,7 +200,7 @@ public class Term implements Cloneable, Comparable
             }
             else
             {
-                other = new Term(coefficientSum, termA.exponent);
+                other = new Term(coefficientSum, term1.exponent);
             }
 
         }
