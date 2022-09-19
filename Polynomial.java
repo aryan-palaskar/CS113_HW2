@@ -2,24 +2,24 @@ import java.util.LinkedList;
 
 public class Polynomial
 {
-    private LinkedList<Term> termList;
+    private LinkedList<Term> polyList;
 
     //default constructor
     public Polynomial()
     {
-        this.termList = new LinkedList();
+        this.polyList = new LinkedList();
     }
 
     //full constructor
     public Polynomial(Polynomial polynomial)
     {
-        this.termList = new LinkedList();
+        this.polyList = new LinkedList();
 
         if (polynomial != null)
         {
             for (int i = 0; i < polynomial.getTotalTerms(); i++)
             {
-                termList.add(new Term(polynomial.getTerm(i)));
+                polyList.add(new Term(polynomial.getTerm(i)));
             }
         }
     }
@@ -37,47 +37,55 @@ public class Polynomial
     public void addTerm(Term termToAdd)
     {
         Term initialTerm, termCurrent, termNext, sum;
-        int lastIndex;
+        int index;
 
-        if (this.termList.size() == 0)
+        //if no terms
+        if (this.polyList.size() == 0)
         {
-            this.termList.add(termToAdd);
+            this.polyList.add(termToAdd);
         }
 
-        else if (this.termList.size() == 1)
+        //if only one term is present
+        else if (this.polyList.size() == 1)
         {
-            initialTerm = termList.get(0);
+            initialTerm = polyList.get(0);
+
+            //if termtoAdd greater
             if (termToAdd.compareTo(initialTerm) == 1)
             {
-                termList.add(0, termToAdd);
+                polyList.add(0, termToAdd);
             }
+
+            //if termToAdd same
             else if (termToAdd.compareTo(initialTerm) == 0)
             {
                 sum = termToAdd.addition(initialTerm);
                 if (sum != null)
                 {
-                    termList.set(0, sum);
+                    polyList.set(0, sum);
                 }
                 else
                 {
-                    termList.remove(0);
+                    polyList.remove(0);
                 }
             }
             else
             {
-                termList.add(termToAdd);
+                polyList.add(termToAdd);
             }
         }
         else
         {
+            //if more than one term is present
             for (int i = 0; i < this.getTotalTerms() - 1; i++)
             {
                 termCurrent = this.getTerm(i);
                 termNext = this.getTerm(i + 1);
 
+                //if termToAdd is greater than the current term
                 if (termToAdd.compareTo(termCurrent) == 1)
                 {
-                    termList.add(i, termToAdd);
+                    polyList.add(i, termToAdd);
                     return;
                 }
 
@@ -87,11 +95,11 @@ public class Polynomial
                     sum = termToAdd.addition(termCurrent);
                     if (sum != null)
                     {
-                        termList.set(i, sum);
+                        polyList.set(i, sum);
                     }
                     else
                     {
-                        termList.remove(i);
+                        polyList.remove(i);
                     }
                     return;
                 }
@@ -100,29 +108,29 @@ public class Polynomial
                         && termToAdd.compareTo(termNext) == 1)
                 {
 
-                    termList.add(i + 1, termToAdd);
+                    polyList.add(i + 1, termToAdd);
                     return;
                 }
             }
 
-            lastIndex = this.getTotalTerms() - 1;
-            initialTerm = this.getTerm(lastIndex);
+            index = this.getTotalTerms() - 1;
+            initialTerm = this.getTerm(index);
 
             if (termToAdd.compareTo(initialTerm) == 0)
             {
                 sum = termToAdd.addition(initialTerm);
                 if (sum != null)
                 {
-                    termList.set(lastIndex, sum);
+                    polyList.set(index, sum);
                 }
                 else
                 {
-                    termList.remove(lastIndex);
+                    polyList.remove(index);
                 }
             }
             else
             {
-                termList.add(termToAdd);
+                polyList.add(termToAdd);
             }
         }
     }
@@ -130,40 +138,29 @@ public class Polynomial
     //method that removes a term at a specific index
     public Term remove(int index)
     {
-        if (index < 0 || index > this.getTotalTerms() - 1)
-        {
-            return null;
-        }
-        else
-        {
             Term temp = new Term(this.getTerm(index));
-            this.termList.remove(index);
+            this.polyList.remove(index);
             return temp;
-        }
     }
 
     //getters and setters
     public Term getTerm(int index)
     {
-        return new Term(this.termList.get(index));
+        return new Term(this.polyList.get(index));
     }
 
     //method to that returns the total number of terms in a polynomial
     public int getTotalTerms()
     {
-        return this.termList.size();
+        return this.polyList.size();
     }
 
     //equals method to check if two polynomials are equal to each other
     @Override
     public boolean equals(Object other)
     {
-        if (other == null || other.getClass() != this.getClass())
-        {
-            return false;
-        }
-        else
-        {
+
+
             Polynomial otherPolynomial = (Polynomial) other;
             if (this.getTotalTerms() != ((Polynomial) other).getTotalTerms())
             {
@@ -182,7 +179,6 @@ public class Polynomial
                 return true;
             }
         }
-    }
 
     //toString method to display the polynomial to the user
     @Override
@@ -190,7 +186,7 @@ public class Polynomial
     {
         String polyTerm;
 
-        if (this.termList == null || this.termList.size() == 0)
+        if (this.polyList == null || this.polyList.size() == 0)
         {
             polyTerm = "0";
         }
@@ -198,9 +194,9 @@ public class Polynomial
         {
             polyTerm = "";
 
-            for(int i = 0; i < termList.size(); i++)
+            for(int i = 0; i < polyList.size(); i++)
             {
-                Term term = termList.get(i);
+                Term term = polyList.get(i);
                 polyTerm += term.toString();
             }
 
@@ -216,6 +212,6 @@ public class Polynomial
     //method that clears the polynomial
     public void clear()
     {
-        this.termList.clear();
+        this.polyList.clear();
     }
 }
